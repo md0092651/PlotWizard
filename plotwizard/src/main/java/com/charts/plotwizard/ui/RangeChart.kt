@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import com.charts.plotwizard.animation.AnimationType
 import com.charts.plotwizard.chartdata.ChartData
-import com.charts.plotwizard.ui.theme.Purple40
+import com.charts.plotwizard.chartstyle.ChartStyle
 import com.charts.plotwizard.ui.theme.Purple80
 import kotlin.math.abs
 
@@ -30,6 +30,10 @@ internal fun RangeChart(
     animationType: AnimationType
 ) {
     Box(modifier = modifier.fillMaxSize()) {
+
+        val chartStyle = remember {
+            data.getChartStyle() as ChartStyle.BarChartStyle
+        }
 
         val animateProgress = remember {
             if (animationType == AnimationType.None) {
@@ -48,12 +52,12 @@ internal fun RangeChart(
         ) {
             val canvasWidth = size.width
             val canvasHeight = size.height
-            val padding = 100F
+            val padding = chartStyle.padding
 
             val xIncrement = (canvasWidth - 2 * padding) / (data.numberOfBars - 1)
             val yIncrement = ((canvasHeight - 2 * padding) / (abs(data.getMinimumValue()) + abs(data.getHighestValue()))) * animateProgress.value
 
-            val referenceBarThickness = 50
+            val referenceBarThickness = chartStyle.barThickness
 
             for (i in 0 until data.numberOfBars) {
 
@@ -62,23 +66,16 @@ internal fun RangeChart(
 
                 val h = (yUpper - yLower) * animateProgress.value
                 val w = referenceBarThickness.toFloat()
-                val brush = Brush.verticalGradient(
-                    listOf(
-                        Purple80,
-                        Purple40
-                    )
-                )
-
+                val brush = Brush.verticalGradient(chartStyle.chartBrush)
 
                 drawRoundRect(
                     brush = brush,
-                    //color = Color.Red,
                     topLeft = Offset(
                         x = (padding + i * xIncrement) - referenceBarThickness / 2, y = padding + yIncrement * (data.getHighestValue() - data
                             .getLowestValueAtIndex(i))
                     ),
                     size = Size(height = h, width = w),
-                    cornerRadius = CornerRadius(x = 25f, y = 25f),
+                    cornerRadius = CornerRadius(x = chartStyle.barCornerRadius, y = chartStyle.barCornerRadius),
                 )
 
                 drawContext.canvas.nativeCanvas.apply {
@@ -86,11 +83,11 @@ internal fun RangeChart(
                         drawText(
                             data.getLowestValueAtIndex(i).toString(),
                             (padding + i * xIncrement),
-                            yLower + referenceBarThickness / 2,
+                            yLower + referenceBarThickness,
                             Paint().apply {
-                                textSize = 10.dp.toPx()
+                                textSize = chartStyle.chartValueTextSize.toPx()
                                 textAlign = Paint.Align.CENTER
-                                color = Purple80.toArgb()
+                                color = chartStyle.chartValueTextColor.toArgb()
                                 isFakeBoldText = true
                             }
                         )
@@ -98,13 +95,13 @@ internal fun RangeChart(
 
                     drawIntoCanvas {
                         drawText(
-                            data.getLowestValueAtIndex(i).toString(),
+                            data.getHighestValueAtIndex(i).toString(),
                             (padding + i * xIncrement),
                             yUpper - referenceBarThickness / 2,
                             Paint().apply {
-                                textSize = 10.dp.toPx()
+                                textSize = chartStyle.chartValueTextSize.toPx()
                                 textAlign = Paint.Align.CENTER
-                                color = Purple80.toArgb()
+                                color = chartStyle.chartValueTextColor.toArgb()
                                 isFakeBoldText = true
                             }
                         )

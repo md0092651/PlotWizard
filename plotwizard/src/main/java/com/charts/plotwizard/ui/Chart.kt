@@ -29,10 +29,13 @@ fun Chart(
 ) {
     val chartData = remember { ChartData(chartListData,chartStyle) }
     when(chartData.getChartType()){
-        ChartType.RangeBar-> RangeChart(data = chartData, modifier = modifier,animationType)
+        ChartType.RangeBar-> RangeChart(data = chartData, modifier = modifier, animationType = animationType)
+        ChartType.Pie-> PieChart(data = chartData, modifier = modifier,animationType = animationType)
         else -> Unit
     }
 }
+
+
 
 interface ChartPainter {
     fun drawPoint(

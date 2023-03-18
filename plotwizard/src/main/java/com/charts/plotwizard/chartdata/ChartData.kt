@@ -3,14 +3,15 @@ package com.charts.plotwizard.chartdata
 import com.charts.plotwizard.chartstyle.ChartStyle
 import com.charts.plotwizard.charttype.ChartType
 
-internal class ChartData(val list: List<ChartEntry>,val chartStyle: ChartStyle) {
+internal class ChartData(val list: List<ChartEntry>, private val chartStyle: ChartStyle) {
 
     val numberOfBars = list.size
 
     internal fun getChartType(): ChartType {
         return when {
             list.all { it is ChartEntry.RangeBar } -> ChartType.RangeBar
-            else -> ChartType.RangeBar
+            list.all { it is ChartEntry.PieChartEntry } -> ChartType.Pie
+            else -> ChartType.Empty
         }
     }
 
@@ -18,7 +19,8 @@ internal class ChartData(val list: List<ChartEntry>,val chartStyle: ChartStyle) 
         return if(chartStyle == ChartStyle.DefaultStyle()){
             when {
                 list.all { it is ChartEntry.RangeBar } -> ChartStyle.BarChartStyle()
-                else -> ChartStyle.DefaultStyle()
+                list.all { it is ChartEntry.PieChartEntry } -> ChartStyle.PieChartStyle()
+                else -> ChartStyle.BarChartStyle()
             }
         }else {
             chartStyle
