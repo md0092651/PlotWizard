@@ -65,40 +65,6 @@ please open an issue on this repository.
         <br>
         <em>Step1</em>
       </td>
-      <td>
-        <img src="screenshot/Step2.png" alt="Settings screenshot" width="400"/>
-        <br>
-       <em>Step2</em>
-      </td>
-        <td>
-        <img src="screenshot/Step3.png" alt="Settings screenshot" width="400"/>
-        <br>
-            <em>Step3</em>
-      </td>
-    </tr>
-    <tr>
-        <td>
-            <img src="screenshot/Step4.png" alt="Compass screenshot" width="400"/>
-            <br>
-            <em>Step4</em>
-        </td>
-        <td>
-            <img src="screenshot/Step5.png" alt="Compass screenshot" width="400"/>
-            <br>
-            <em>Step5</em>
-        </td>
-        <td>
-            <img src="screenshot/Step6.png" alt="Compass screenshot" width="400"/>
-            <br>
-            <em>Step6</em>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <img src="screenshot/Step7.png" alt="Compass screenshot" width="400"/>
-            <br>
-            <em>Step7</em>
-        </td>
     </tr>
   </table>
 
