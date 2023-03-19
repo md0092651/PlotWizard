@@ -58,9 +58,9 @@ afterEvaluate {
         publishing.publications.create(variant.name, MavenPublication){
             from components.findByName(variant.name)
 
-            groupId = 'com.mikeschvedov'
-            artifactId = "ultimate-utility-box"
-            version = '0.0.2'
+            groupId = 'com.charts'
+            artifactId = "plotwizard"
+            version = '0.0.4-alpha'
         } //
     }
 }
