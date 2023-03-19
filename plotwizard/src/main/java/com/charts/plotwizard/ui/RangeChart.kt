@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -20,7 +19,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
-import com.charts.plotwizard.animation.AnimationType
 import com.charts.plotwizard.chartdata.ChartData
 import com.charts.plotwizard.chartstyle.ChartStyle
 import kotlinx.coroutines.launch

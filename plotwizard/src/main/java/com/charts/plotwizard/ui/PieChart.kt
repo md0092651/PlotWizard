@@ -7,7 +7,6 @@ import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -17,7 +16,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
-import com.charts.plotwizard.animation.AnimationType
 import com.charts.plotwizard.chartdata.ChartData
 import com.charts.plotwizard.chartdata.ChartEntry
 import com.charts.plotwizard.chartstyle.ChartStyle

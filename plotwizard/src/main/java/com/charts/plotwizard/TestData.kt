@@ -3,9 +3,6 @@ package com.charts.plotwizard
 import androidx.compose.ui.graphics.Color
 import com.charts.plotwizard.chartdata.ChartEntry
 import com.charts.plotwizard.ui.theme.Pink80
-import com.charts.plotwizard.ui.theme.Purple80
-import com.charts.plotwizard.ui.theme.PurpleGrey80
-import java.math.BigDecimal
 
 fun getMockRangeList() = listOf(
     ChartEntry.RangeBar(0F, 5F),
