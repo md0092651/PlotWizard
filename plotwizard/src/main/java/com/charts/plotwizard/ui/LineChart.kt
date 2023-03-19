@@ -2,6 +2,7 @@ package com.charts.plotwizard.ui
 
 import android.graphics.PointF
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,7 +29,7 @@ import com.charts.plotwizard.ui.theme.Pink80
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun LineChart(data: ChartData, modifier: Modifier, animationType: AnimationType) {
+internal fun LineChart(data: ChartData, modifier: Modifier,  animateProgress: Animatable<Float, AnimationVector1D>) {
     val chartStyle = remember { data.getChartStyle() as ChartStyle.LineChartStyle }
     Box(
         modifier = modifier
@@ -36,12 +37,6 @@ internal fun LineChart(data: ChartData, modifier: Modifier, animationType: Anima
            ,
         contentAlignment = Alignment.Center
     ) {
-        val animationProgress = remember { Animatable(if (animationType == AnimationType.None) 1f else 0F) }
-        LaunchedEffect(
-            key1 = data,
-            block = { animationProgress.animateTo(1F, animationType.animation) }
-        )
-
         val coroutineScope = rememberCoroutineScope()
         Spacer(
             modifier = Modifier
@@ -50,8 +45,8 @@ internal fun LineChart(data: ChartData, modifier: Modifier, animationType: Anima
                 .align(Alignment.Center)
                 .clickable {
                     coroutineScope.launch {
-                        animationProgress.snapTo(0f)
-                        animationProgress.animateTo(1f, tween(3000))
+//                        animationProgress.snapTo(0f)
+//                        animationProgress.animateTo(1f, tween(3000))
                     }
                 }
                 .drawWithCache {
@@ -63,7 +58,7 @@ internal fun LineChart(data: ChartData, modifier: Modifier, animationType: Anima
                     filledPath.close()
 
                     onDrawBehind {
-                        clipRect(right = size.width * animationProgress.value) {
+                        clipRect(right = size.width * animateProgress.value) {
                             drawPath(path, Pink80, style = Stroke(2.dp.toPx()))
                             drawPath(
                                 filledPath,

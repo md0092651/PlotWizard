@@ -1,7 +1,10 @@
 package com.charts.plotwizard.ui
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
@@ -28,10 +31,23 @@ fun Chart(
     modifier: Modifier = Modifier
 ) {
     val chartData = remember { ChartData(chartListData,chartStyle) }
+    val coroutineScope = rememberCoroutineScope()
+
+    val animateProgress = remember {
+        if (animationType == AnimationType.None) {
+            Animatable(1f)
+        } else {
+            Animatable(0f)
+        }
+    }
+    LaunchedEffect(key1 = chartListData, block = {
+        animateProgress.animateTo(1F, animationType.animation)
+    })
+
     when(chartData.getChartType()){
-        ChartType.RangeBar-> RangeChart(data = chartData, modifier = modifier, animationType = animationType)
-        ChartType.Pie-> PieChart(data = chartData, modifier = modifier,animationType = animationType)
-        ChartType.Line-> LineChart(data = chartData, modifier = modifier,animationType = animationType)
+        ChartType.RangeBar-> RangeChart(data = chartData, modifier = modifier, animateProgress = animateProgress)
+        ChartType.Pie-> PieChart(data = chartData, modifier = modifier,animateProgress = animateProgress)
+        ChartType.Line-> LineChart(data = chartData, modifier = modifier,animateProgress = animateProgress)
         else -> Unit
     }
 }

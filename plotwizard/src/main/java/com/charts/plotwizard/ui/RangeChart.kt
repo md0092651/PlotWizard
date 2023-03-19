@@ -2,8 +2,7 @@ package com.charts.plotwizard.ui
 
 import android.graphics.Paint
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -21,11 +20,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.dp
 import com.charts.plotwizard.animation.AnimationType
 import com.charts.plotwizard.chartdata.ChartData
 import com.charts.plotwizard.chartstyle.ChartStyle
-import com.charts.plotwizard.ui.theme.Purple80
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
@@ -33,7 +30,7 @@ import kotlin.math.abs
 internal fun RangeChart(
     data: ChartData,
     modifier: Modifier = Modifier,
-    animationType: AnimationType
+    animateProgress: Animatable<Float, AnimationVector1D>
 ) {
     Box(modifier = modifier.fillMaxSize()) {
 
@@ -41,25 +38,14 @@ internal fun RangeChart(
             data.getChartStyle() as ChartStyle.BarChartStyle
         }
 
-        val animateProgress = remember {
-            if (animationType == AnimationType.None) {
-                Animatable(1f)
-            } else {
-                Animatable(0f)
-            }
-        }
         val coroutineScope = rememberCoroutineScope()
-
-        LaunchedEffect(key1 = data, block = {
-            animateProgress.animateTo(1F, animationType.animation)
-        })
 
         Spacer(
             modifier = Modifier.fillMaxSize()
                 .clickable {
                     coroutineScope.launch {
-                        animateProgress.snapTo(0f)
-                        animateProgress.animateTo(1f, animationType.animation)
+                        //animateProgress.snapTo(0f)
+                        //animateProgress.animateTo(1f, animationType.animation)
                     }
                 }
             .drawWithCache {

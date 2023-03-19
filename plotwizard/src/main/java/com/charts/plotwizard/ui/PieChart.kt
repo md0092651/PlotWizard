@@ -3,6 +3,7 @@ package com.charts.plotwizard.ui
 import android.graphics.Paint
 import android.graphics.Path
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -23,7 +24,7 @@ import com.charts.plotwizard.chartstyle.ChartStyle
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun PieChart(data: ChartData, modifier: Modifier, animationType: AnimationType) {
+internal fun PieChart(data: ChartData, modifier: Modifier,   animateProgress: Animatable<Float, AnimationVector1D>) {
     val chartStyle = remember { data.getChartStyle() as ChartStyle.PieChartStyle }
     Box(
         modifier = modifier
@@ -31,12 +32,6 @@ internal fun PieChart(data: ChartData, modifier: Modifier, animationType: Animat
             .padding(20.dp),
         contentAlignment = Alignment.Center
     ) {
-        val animateProgress = remember { Animatable(if (animationType == AnimationType.None) 1f else 0F) }
-
-        LaunchedEffect(
-            key1 = data,
-            block = { animateProgress.animateTo(1F, animationType.animation) }
-        )
 
         val coroutineScope = rememberCoroutineScope()
 
@@ -45,8 +40,8 @@ internal fun PieChart(data: ChartData, modifier: Modifier, animationType: Animat
                 .size(chartStyle.chartSize)
                 .clickable {
                     coroutineScope.launch {
-                        animateProgress.snapTo(0f)
-                        animateProgress.animateTo(1f, animationType.animation)
+//                        animateProgress.snapTo(0f)
+//                        animateProgress.animateTo(1f, animationType.animation)
                     }
                 }
                 .drawWithCache {
