@@ -3,12 +3,12 @@ package com.charts.plotwizard.ui
 import android.graphics.PointF
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,16 +21,13 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.unit.dp
-import com.charts.plotwizard.animation.AnimationType
 import com.charts.plotwizard.chartdata.ChartData
 import com.charts.plotwizard.chartdata.ChartEntry
-import com.charts.plotwizard.chartstyle.ChartStyle
 import com.charts.plotwizard.ui.theme.Pink80
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun LineChart(data: ChartData, modifier: Modifier,  animateProgress: Animatable<Float, AnimationVector1D>) {
-    val chartStyle = remember { data.getChartStyle() as ChartStyle.LineChartStyle }
+internal fun LineChart(data: ChartData, modifier: Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -45,8 +42,8 @@ internal fun LineChart(data: ChartData, modifier: Modifier,  animateProgress: An
                 .align(Alignment.Center)
                 .clickable {
                     coroutineScope.launch {
-//                        animationProgress.snapTo(0f)
-//                        animationProgress.animateTo(1f, tween(3000))
+                        data.animateProgress.snapTo(0f)
+                        data.animateProgress.animateTo(1f, data.animation)
                     }
                 }
                 .drawWithCache {
@@ -58,7 +55,7 @@ internal fun LineChart(data: ChartData, modifier: Modifier,  animateProgress: An
                     filledPath.close()
 
                     onDrawBehind {
-                        clipRect(right = size.width * animateProgress.value) {
+                        clipRect(right = size.width *  data.animateProgress.value) {
                             drawPath(path, Pink80, style = Stroke(2.dp.toPx()))
                             drawPath(
                                 filledPath,
@@ -94,7 +91,7 @@ fun generateSmoothPath(data: ChartData, size: Size): Path {
             )
         }
         val xIncrement = i * xWidth
-        val yIncrement = size.height - ((entry as ChartEntry.LineChartEntry).yValue - data.getMinimumValue()).toFloat() *
+        val yIncrement = size.height - ((entry as ChartEntry.LineChartEntry).yValue - data.getMinimumValue()) *
                 heightPxPerAmount
         val firstPoint = PointF((xIncrement + lastXValue) / 2f, lastYValue)
         val secondPoint = PointF((xIncrement + lastXValue) / 2f, yIncrement)

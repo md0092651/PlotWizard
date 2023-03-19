@@ -4,7 +4,6 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
@@ -18,21 +17,18 @@ import com.charts.plotwizard.charttype.ChartType
 
 /**
  * Composable function to create a chart using Jetpack Compose
- * @param chartData chart data for the chart
- * @param barChartStyle chart style configuration for the chart
- * @param animate boolean indicating whether to animate the chart
- * @param animationType type of animation to use for the chart
+ * @param chartListData chart list data for the chart
+ * @param chartStyle chart style configuration for the chart
+ * @param animationType Animation type. Default is AnimationType.None
+ * @param modifier
  */
 @Composable
 fun Chart(
+    modifier: Modifier = Modifier,
     chartListData: List<ChartEntry>,
     chartStyle: ChartStyle = DefaultStyle(),
     animationType: AnimationType = AnimationType.None,
-    modifier: Modifier = Modifier
 ) {
-    val chartData = remember { ChartData(chartListData,chartStyle) }
-    val coroutineScope = rememberCoroutineScope()
-
     val animateProgress = remember {
         if (animationType == AnimationType.None) {
             Animatable(1f)
@@ -43,11 +39,11 @@ fun Chart(
     LaunchedEffect(key1 = chartListData, block = {
         animateProgress.animateTo(1F, animationType.animation)
     })
-
+    val chartData = remember { ChartData(chartListData,chartStyle,animateProgress,animationType.animation) }
     when(chartData.getChartType()){
-        ChartType.RangeBar-> RangeChart(data = chartData, modifier = modifier, animateProgress = animateProgress)
-        ChartType.Pie-> PieChart(data = chartData, modifier = modifier,animateProgress = animateProgress)
-        ChartType.Line-> LineChart(data = chartData, modifier = modifier,animateProgress = animateProgress)
+        ChartType.RangeBar-> RangeChart(data = chartData, modifier = modifier)
+        ChartType.Pie-> PieChart(data = chartData, modifier = modifier)
+        ChartType.Line-> LineChart(data = chartData, modifier = modifier)
         else -> Unit
     }
 }

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -20,7 +19,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
-import com.charts.plotwizard.animation.AnimationType
 import com.charts.plotwizard.chartdata.ChartData
 import com.charts.plotwizard.chartstyle.ChartStyle
 import kotlinx.coroutines.launch
@@ -29,8 +27,7 @@ import kotlin.math.abs
 @Composable
 internal fun RangeChart(
     data: ChartData,
-    modifier: Modifier = Modifier,
-    animateProgress: Animatable<Float, AnimationVector1D>
+    modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxSize()) {
 
@@ -44,8 +41,8 @@ internal fun RangeChart(
             modifier = Modifier.fillMaxSize()
                 .clickable {
                     coroutineScope.launch {
-                        //animateProgress.snapTo(0f)
-                        //animateProgress.animateTo(1f, animationType.animation)
+                        data.animateProgress.snapTo(0f)
+                        data.animateProgress.animateTo(1f, data.animation)
                     }
                 }
             .drawWithCache {
@@ -55,7 +52,7 @@ internal fun RangeChart(
                     val padding = chartStyle.padding
 
                     val xIncrement = (canvasWidth - 2 * padding) / (data.numberOfBars - 1)
-                    val yIncrement = ((canvasHeight - 2 * padding) / (abs(data.getMinimumValue()) + abs(data.getHighestValue()))) * animateProgress.value
+                    val yIncrement = ((canvasHeight - 2 * padding) / (abs(data.getMinimumValue()) + abs(data.getHighestValue()))) *  data.animateProgress.value
 
                     val referenceBarThickness = chartStyle.barThickness
 
@@ -64,7 +61,7 @@ internal fun RangeChart(
                         val yUpper = padding + yIncrement * (data.getHighestValue() - data.getHighestValueAtIndex(i))
                         val yLower = padding + yIncrement * (data.getHighestValue() - data.getLowestValueAtIndex(i))
 
-                        val h = (yUpper - yLower) * animateProgress.value
+                        val h = (yUpper - yLower) *  data.animateProgress.value
                         val w = referenceBarThickness.toFloat()
                         val brush = Brush.verticalGradient(chartStyle.chartBrush)
 

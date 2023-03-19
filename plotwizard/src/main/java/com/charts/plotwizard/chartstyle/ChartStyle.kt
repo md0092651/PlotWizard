@@ -6,10 +6,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.charts.plotwizard.animation.AnimationType
 import com.charts.plotwizard.ui.theme.Purple40
 import com.charts.plotwizard.ui.theme.Purple80
-
 
 sealed class ChartStyle{
 
@@ -35,7 +33,8 @@ sealed class ChartStyle{
         val startAngle:Float = 0F,
         val strokeWidth:Dp = 30.dp,
         val strokeCap: StrokeCap = StrokeCap.Round,
-        val textSize: TextUnit = 16.sp
+        val textSize: TextUnit = 16.sp,
+        val textColor: Color = Color.White
     ):ChartStyle()
 
     data class LineChartStyle(

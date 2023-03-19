@@ -1,9 +1,17 @@
 package com.charts.plotwizard.chartdata
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.AnimationVector1D
 import com.charts.plotwizard.chartstyle.ChartStyle
 import com.charts.plotwizard.charttype.ChartType
 
-class ChartData(val list: List<ChartEntry>, private val chartStyle: ChartStyle) {
+class ChartData(
+    val list: List<ChartEntry>,
+    private val chartStyle: ChartStyle,
+    val animateProgress: Animatable<Float, AnimationVector1D>,
+    val animation: AnimationSpec<Float>
+) {
 
     val numberOfBars = list.size
 
