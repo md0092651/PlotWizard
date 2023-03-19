@@ -1,7 +1,7 @@
-# PlotWizard
+# PlotWizard ![](https://jitpack.io/v/md0092651/PlotWizard.svg)
 
 This is a simple chats library made with Jetpack compose
-[![](https://jitpack.io/v/md0092651/PlotWizard.svg)]
+
 
 ## Features
 
@@ -45,6 +45,25 @@ dependencies {
     implementation 'com.github.md0092651:PlotWizard:0.0.2'
 }
 ```
+## Usage
+
+To implement basic Range chart
+```kotlin
+Chart(chartListData = getMockRangeList()) // Pass your list of type ChartEntry.RangeBar
+``` 
+To customize the animation and chart style :
+
+```kotlin
+ Chart(chartListData = getMockRangeList(),
+    animationType = AnimationType.Bouncy(10F),
+    chartStyle = ChartStyle.BarChartStyle(
+        chartBrush = listOf(Pink40, Purple80),
+        barCornerRadius = 20F,
+        chartValueTextColor = Color.Black
+    )
+)
+``` 
+
 
 ## Development
 
