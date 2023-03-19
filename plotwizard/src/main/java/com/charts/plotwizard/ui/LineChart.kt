@@ -27,7 +27,7 @@ import com.charts.plotwizard.ui.theme.Pink80
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun LineChart(data: ChartData, modifier: Modifier,  animateProgress: Animatable<Float, AnimationVector1D>) {
+internal fun LineChart(data: ChartData, modifier: Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -41,7 +41,10 @@ internal fun LineChart(data: ChartData, modifier: Modifier,  animateProgress: An
                 .fillMaxSize()
                 .align(Alignment.Center)
                 .clickable {
-                    coroutineScope.launch {}
+                    coroutineScope.launch {
+                        data.animateProgress.snapTo(0f)
+                        data.animateProgress.animateTo(1f, data.animation)
+                    }
                 }
                 .drawWithCache {
                     val path = generateSmoothPath(data, size)
@@ -52,7 +55,7 @@ internal fun LineChart(data: ChartData, modifier: Modifier,  animateProgress: An
                     filledPath.close()
 
                     onDrawBehind {
-                        clipRect(right = size.width * animateProgress.value) {
+                        clipRect(right = size.width *  data.animateProgress.value) {
                             drawPath(path, Pink80, style = Stroke(2.dp.toPx()))
                             drawPath(
                                 filledPath,

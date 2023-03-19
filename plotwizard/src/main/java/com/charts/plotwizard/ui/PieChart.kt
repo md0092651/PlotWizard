@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import com.charts.plotwizard.chartdata.ChartData
 import com.charts.plotwizard.chartdata.ChartEntry
@@ -22,7 +23,7 @@ import com.charts.plotwizard.chartstyle.ChartStyle
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun PieChart(data: ChartData, modifier: Modifier,   animateProgress: Animatable<Float, AnimationVector1D>) {
+internal fun PieChart(data: ChartData, modifier: Modifier) {
     val chartStyle = remember { data.getChartStyle() as ChartStyle.PieChartStyle }
     Box(
         modifier = modifier
@@ -38,8 +39,8 @@ internal fun PieChart(data: ChartData, modifier: Modifier,   animateProgress: An
                 .size(chartStyle.chartSize)
                 .clickable {
                     coroutineScope.launch {
-//                        animateProgress.snapTo(0f)
-//                        animateProgress.animateTo(1f, animationType.animation)
+                        data.animateProgress.snapTo(0f)
+                        data.animateProgress.animateTo(1f, data.animation)
                     }
                 }
                 .drawWithCache {
@@ -48,7 +49,7 @@ internal fun PieChart(data: ChartData, modifier: Modifier,   animateProgress: An
                         val total = data.list.sumOf { (it as ChartEntry.PieChartEntry).value }
                         data.list.forEach { chartEntry ->
                             val entryValue = (chartEntry as ChartEntry.PieChartEntry).value
-                            val sweepAngle = (360 * entryValue.toFloat() / total.toFloat()) * animateProgress.value
+                            val sweepAngle = (360 * entryValue.toFloat() / total.toFloat()) * data.animateProgress.value
                             drawArc(
                                 color = chartEntry.color,
                                 startAngle = startAngle,
@@ -75,6 +76,7 @@ internal fun PieChart(data: ChartData, modifier: Modifier,   animateProgress: An
                                         Paint().apply {
                                             textSize = chartStyle.textSize.toPx()
                                             textAlign = Paint.Align.CENTER
+                                            color = chartStyle.textColor.toArgb()
                                         }
                                     )
                                 }

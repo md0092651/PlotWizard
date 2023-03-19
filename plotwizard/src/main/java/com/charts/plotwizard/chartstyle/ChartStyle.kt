@@ -33,7 +33,8 @@ sealed class ChartStyle{
         val startAngle:Float = 0F,
         val strokeWidth:Dp = 30.dp,
         val strokeCap: StrokeCap = StrokeCap.Round,
-        val textSize: TextUnit = 16.sp
+        val textSize: TextUnit = 16.sp,
+        val textColor: Color = Color.White
     ):ChartStyle()
 
     data class LineChartStyle(

@@ -29,7 +29,6 @@ fun Chart(
     chartStyle: ChartStyle = DefaultStyle(),
     animationType: AnimationType = AnimationType.None,
 ) {
-    val chartData = remember { ChartData(chartListData,chartStyle) }
     val animateProgress = remember {
         if (animationType == AnimationType.None) {
             Animatable(1f)
@@ -40,11 +39,11 @@ fun Chart(
     LaunchedEffect(key1 = chartListData, block = {
         animateProgress.animateTo(1F, animationType.animation)
     })
-
+    val chartData = remember { ChartData(chartListData,chartStyle,animateProgress,animationType.animation) }
     when(chartData.getChartType()){
-        ChartType.RangeBar-> RangeChart(data = chartData, modifier = modifier, animateProgress = animateProgress)
-        ChartType.Pie-> PieChart(data = chartData, modifier = modifier,animateProgress = animateProgress)
-        ChartType.Line-> LineChart(data = chartData, modifier = modifier,animateProgress = animateProgress)
+        ChartType.RangeBar-> RangeChart(data = chartData, modifier = modifier)
+        ChartType.Pie-> PieChart(data = chartData, modifier = modifier)
+        ChartType.Line-> LineChart(data = chartData, modifier = modifier)
         else -> Unit
     }
 }
