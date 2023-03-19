@@ -22,6 +22,13 @@ sealed class ChartEntry {
         val label: String,
     ):ChartEntry()
 
+    data class SpiralChartEntry(
+        val value :Float,
+        val valueLabel :String,
+        val valueColor :Color,
+        val maxValue :Int
+    ):ChartEntry()
+
 }
 
 
