@@ -8,18 +8,17 @@ This is a simple chats library made with Jetpack compose
 - [x] Line Chart
 - [x] Pie Chart
 - [x] Range Chart
+- [x] Spiral Chart
 
 ## Todo
 
-- [ ] Spiral Chart
-- [ ] Area Chart
 - [ ] Column Chart
 - [ ] Group Chart
 - [ ] Gauge Chart
 
 ## In Progress
 
-- [ ] Spiral Chart
+- [ ] Area Chart
 - [ ] Add XY blocks to Line and range chart
 
 ## Done
