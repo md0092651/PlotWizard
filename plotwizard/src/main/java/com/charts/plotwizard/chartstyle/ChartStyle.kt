@@ -30,7 +30,7 @@ sealed class ChartStyle{
 
     data class PieChartStyle(
         val chartSize:Dp = 200.dp,
-        val startAngle:Float = 0F,
+        val startAngle:Float = 270F,
         val strokeWidth:Dp = 30.dp,
         val strokeCap: StrokeCap = StrokeCap.Round,
         val textSize: TextUnit = 16.sp,
