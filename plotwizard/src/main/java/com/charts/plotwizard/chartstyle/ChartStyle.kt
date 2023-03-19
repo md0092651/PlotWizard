@@ -38,6 +38,14 @@ sealed class ChartStyle{
         val textSize: TextUnit = 16.sp
     ):ChartStyle()
 
+    data class LineChartStyle(
+        val chartSize:Dp = 200.dp,
+        val startAngle:Float = 0F,
+        val strokeWidth:Dp = 30.dp,
+        val strokeCap: StrokeCap = StrokeCap.Round,
+        val textSize: TextUnit = 16.sp
+    ):ChartStyle()
+
     data class DefaultStyle(
         val barThickness :Int = 50,
         val padding : Float = 100F,

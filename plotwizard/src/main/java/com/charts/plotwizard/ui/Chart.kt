@@ -31,6 +31,7 @@ fun Chart(
     when(chartData.getChartType()){
         ChartType.RangeBar-> RangeChart(data = chartData, modifier = modifier, animationType = animationType)
         ChartType.Pie-> PieChart(data = chartData, modifier = modifier,animationType = animationType)
+        ChartType.Line-> LineChart(data = chartData, modifier = modifier,animationType = animationType)
         else -> Unit
     }
 }

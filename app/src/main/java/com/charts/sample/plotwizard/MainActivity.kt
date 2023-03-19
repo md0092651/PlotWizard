@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.charts.plotwizard.animation.AnimationType
 import com.charts.plotwizard.getMockRangeList
 import com.charts.plotwizard.chartstyle.ChartStyle
+import com.charts.plotwizard.getMockLineList
 import com.charts.plotwizard.getMockPieList
 import com.charts.plotwizard.ui.Chart
 import com.charts.sample.plotwizard.ui.theme.Pink40
@@ -45,6 +46,13 @@ class MainActivity : ComponentActivity() {
                             Chart(
                                 chartListData = getMockPieList(),
                                 animationType = AnimationType.Linear(2000)
+                            )
+                        }
+
+                        Column(modifier = Modifier.fillMaxWidth().height(240.dp).background(color = Color.LightGray.copy(alpha = 0.2F))) {
+                            Chart(
+                                chartListData = getMockLineList(),
+                                animationType = AnimationType.Bouncy(20F)
                             )
                         }
                     }
