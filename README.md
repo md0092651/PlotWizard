@@ -20,6 +20,7 @@ This is a simple chats library made with Jetpack compose
 ## In Progress
 
 - [ ] Spiral Chart
+- [ ] Add XY blocks to Line and range chart
 
 ## Done
 
