@@ -4,7 +4,7 @@ sealed class ChartType {
     object Pie : ChartType()
     object RangeBar : ChartType()
     object Line : ChartType()
-    object Spiral : ChartType()
+    object CircularBar : ChartType()
     object Empty:ChartType()
 }
 

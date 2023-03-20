@@ -8,13 +8,16 @@ This is a simple chats library made with Jetpack compose
 - [x] Line Chart
 - [x] Pie Chart
 - [x] Range Chart
-- [x] Spiral Chart
+- [x] CircularBar Chart
 
 ## Todo
 
 - [ ] Column Chart
 - [ ] Group Chart
 - [ ] Gauge Chart
+- [ ] Heap Map
+- [ ] Pyramid Chart
+- [ ] CandleStick Chart
 
 ## In Progress
 
@@ -25,7 +28,7 @@ This is a simple chats library made with Jetpack compose
 
 - [x] Line Chart
 - [x] Pie Chart
-- [x] Range Chart
+- [x] CircularBar Chart
 
 
 ## Installation
@@ -34,7 +37,7 @@ Add it in your root build.gradle at the end of repositories:
 ```groovy
 allprojects {
 		repositories {
-			...
+			
 			maven { url 'https://jitpack.io' }
 		}
 	}
@@ -87,6 +90,7 @@ please open an issue on this repository.
     </tr>
   </table>
 
+![](screenshot/video.gif)
 https://user-images.githubusercontent.com/3413729/226190218-5e3a27ac-800a-434f-8687-b9ebe100b81c.mp4
 
 

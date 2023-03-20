@@ -22,7 +22,7 @@ sealed class ChartEntry {
         val label: String,
     ):ChartEntry()
 
-    data class SpiralChartEntry(
+    data class CircularBarChartEntry(
         val value :Float,
         val valueLabel :String,
         val valueColor :Color,

@@ -20,7 +20,7 @@ class ChartData(
             list.all { it is ChartEntry.RangeBar } -> ChartType.RangeBar
             list.all { it is ChartEntry.PieChartEntry } -> ChartType.Pie
             list.all { it is ChartEntry.LineChartEntry } -> ChartType.Line
-            list.all { it is ChartEntry.SpiralChartEntry } -> ChartType.Spiral
+            list.all { it is ChartEntry.CircularBarChartEntry } -> ChartType.CircularBar
             else -> ChartType.Empty
         }
     }
@@ -42,7 +42,7 @@ class ChartData(
         return when (getChartType()) {
             ChartType.RangeBar-> list.maxOf { (it as ChartEntry.RangeBar).maximum }
             ChartType.Line-> list.maxOf { (it as ChartEntry.LineChartEntry).yValue }
-            ChartType.Spiral-> list.maxOf { (it as ChartEntry.SpiralChartEntry).maxValue }.toFloat()
+            ChartType.CircularBar-> list.maxOf { (it as ChartEntry.CircularBarChartEntry).maxValue }.toFloat()
             else -> 0F
         }
     }
