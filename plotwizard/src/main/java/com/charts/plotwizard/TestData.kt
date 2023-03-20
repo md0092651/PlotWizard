@@ -1,11 +1,10 @@
 package com.charts.plotwizard
 
-import androidx.compose.ui.graphics.Color
 import com.charts.plotwizard.chartdata.ChartEntry
 import com.charts.plotwizard.ui.theme.C1
 import com.charts.plotwizard.ui.theme.C2
 import com.charts.plotwizard.ui.theme.C3
-import com.charts.plotwizard.ui.theme.Pink80
+import com.charts.plotwizard.ui.theme.C4
 
 fun getMockRangeList() = listOf(
     ChartEntry.RangeBar(0F, 5F),
@@ -18,10 +17,10 @@ fun getMockRangeList() = listOf(
 )
 
 fun getMockPieList()= listOf(
-    ChartEntry.PieChartEntry(40, "A", Color.Black),
-    ChartEntry.PieChartEntry(27, "B",Color.Red),
+    ChartEntry.PieChartEntry(40, "A", C1),
+    ChartEntry.PieChartEntry(27, "B",C3),
     ChartEntry.PieChartEntry(80, "C", C2),
-    ChartEntry.PieChartEntry(30, "D", Pink80),
+    ChartEntry.PieChartEntry(30, "D", C4),
 )
 
 fun getMockLineList() = listOf(
@@ -39,7 +38,7 @@ fun getMockLineList() = listOf(
 )
 
 fun getMockSpiralChartList() = listOf(
-    ChartEntry.SpiralChartEntry(value = 100F,"A", C1,200),
-    ChartEntry.SpiralChartEntry(value = 80F,"A", C2,200),
-    ChartEntry.SpiralChartEntry(value = 150F,"A", C3,200),
+    ChartEntry.CircularBarChartEntry(value = 100F,"Activity A", C1,200),
+    ChartEntry.CircularBarChartEntry(value = 80F,"Activity B", C2,200),
+    ChartEntry.CircularBarChartEntry(value = 150F,"Activity C", C3,200),
 )

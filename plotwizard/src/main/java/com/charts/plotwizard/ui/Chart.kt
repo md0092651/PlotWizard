@@ -44,7 +44,7 @@ fun Chart(
         ChartType.RangeBar-> RangeChart(data = chartData, modifier = modifier)
         ChartType.Pie-> PieChart(data = chartData, modifier = modifier)
         ChartType.Line-> LineChart(data = chartData, modifier = modifier)
-        ChartType.Spiral-> SpiralChart(data = chartData, modifier = modifier)
+        ChartType.CircularBar-> CircularBarChartEntry(data = chartData, modifier = modifier)
         else -> Unit
     }
 }
