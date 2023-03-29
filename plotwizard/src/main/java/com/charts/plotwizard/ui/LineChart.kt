@@ -1,8 +1,6 @@
 package com.charts.plotwizard.ui
 
 import android.graphics.PointF
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +21,7 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.unit.dp
 import com.charts.plotwizard.chartdata.ChartData
 import com.charts.plotwizard.chartdata.ChartEntry
+import com.charts.plotwizard.chartstyle.ChartStyle
 import com.charts.plotwizard.ui.theme.Pink80
 import kotlinx.coroutines.launch
 
@@ -30,11 +29,11 @@ import kotlinx.coroutines.launch
 internal fun LineChart(data: ChartData, modifier: Modifier) {
     Box(
         modifier = modifier
-            .fillMaxSize()
-           ,
+            .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         val coroutineScope = rememberCoroutineScope()
+        val style : ChartStyle.LineChartStyle = data.getChartStyle() as ChartStyle.LineChartStyle
         Spacer(
             modifier = Modifier
                 .padding(8.dp)
@@ -55,6 +54,11 @@ internal fun LineChart(data: ChartData, modifier: Modifier) {
                     filledPath.close()
 
                     onDrawBehind {
+
+                        if(!style.hideGridLine){
+                            GridLinePainter(style.gridStyle).drawPoint(this)
+                        }
+
                         clipRect(right = size.width *  data.animateProgress.value) {
                             drawPath(path, Pink80, style = Stroke(2.dp.toPx()))
                             drawPath(
@@ -72,6 +76,7 @@ internal fun LineChart(data: ChartData, modifier: Modifier) {
                 })
     }
 }
+
 
 fun generateSmoothPath(data: ChartData, size: Size): Path {
     val path = Path()
