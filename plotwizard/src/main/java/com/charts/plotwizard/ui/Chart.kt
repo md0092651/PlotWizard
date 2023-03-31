@@ -1,20 +1,22 @@
 package com.charts.plotwizard.ui
 
-import androidx.compose.animation.core.Animatable
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.unit.dp
 import com.charts.plotwizard.animation.AnimationType
 import com.charts.plotwizard.chartdata.ChartData
 import com.charts.plotwizard.chartdata.ChartEntry
 import com.charts.plotwizard.chartstyle.ChartStyle
 import com.charts.plotwizard.chartstyle.ChartStyle.DefaultStyle
-import com.charts.plotwizard.chartstyle.GridStyle
 import com.charts.plotwizard.charttype.ChartType
+import kotlinx.coroutines.launch
 
 /**
  * Composable function to create a chart using Jetpack Compose
@@ -30,63 +32,53 @@ fun Chart(
     chartStyle: ChartStyle = DefaultStyle(),
     animationType: AnimationType = AnimationType.None,
 ) {
-    val animateProgress = remember {
-        if (animationType == AnimationType.None) {
-            Animatable(1f)
-        } else {
-            Animatable(0f)
-        }
-    }
+    val animateProgress = remember { animationType.animationInitialProgress }
+
     LaunchedEffect(key1 = chartListData, block = {
         animateProgress.animateTo(1F, animationType.animation)
     })
-    val chartData = remember { ChartData(chartListData,chartStyle,animateProgress,animationType.animation) }
-    when(chartData.getChartType()){
-        ChartType.RangeBar-> RangeChart(data = chartData, modifier = modifier)
-        ChartType.Pie-> PieChart(data = chartData, modifier = modifier)
-        ChartType.Line-> LineChart(data = chartData, modifier = modifier)
-        ChartType.CircularBar-> CircularBarChartEntry(data = chartData, modifier = modifier)
-        else -> Unit
+
+    val chartData = remember { ChartData(chartListData,chartStyle) }
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(20.dp),
+        contentAlignment = Alignment.Center
+    ){
+        val coroutineScope = rememberCoroutineScope()
+        Spacer(
+            modifier = getModifier(chartData.getChartType(),chartStyle)
+                .clickable {
+                    coroutineScope.launch {
+                        animationType.animationInitialProgress.snapTo(0f)
+                        animationType.animationInitialProgress.animateTo(1f, animationType.animation)
+                    }
+                }
+                .drawWithCache {
+                    onDrawBehind {
+                        when(chartData.getChartType()){
+                            ChartType.RangeBar-> RangeChartPainter(chartData,animateProgress.value).drawPoint(this)
+                            ChartType.Pie-> PieChartPainter(chartData,animateProgress.value).drawPoint(this)
+                            ChartType.Line-> LineChartPainter(chartData,animateProgress.value).drawPoint(this)
+                            ChartType.CircularBar-> CircularBarChartPainter(chartData,animateProgress.value).drawPoint(this)
+                            else -> Unit
+                        }
+                    }
+                }
+        )
     }
 }
 
-
-
-interface ChartPainter {
-    fun drawPoint(
-        drawScope: DrawScope
-    )
-}
-
-class GridLinePainter(val gridStyle: GridStyle) : ChartPainter{
-    override fun drawPoint(drawScope: DrawScope) = drawScope.run {
-        drawRect(gridStyle.axisLineColor, style = Stroke(gridStyle.strokeWidth.toPx()))
-
-        val verticalLines = gridStyle.verticalLineCount
-        val verticalSize = size.width / (verticalLines + 1)
-        repeat(verticalLines) { i ->
-            val startX = verticalSize * (i + 1)
-            drawLine(
-                gridStyle.axisLineColor,
-                start = Offset(startX, 0f),
-                end = Offset(startX, size.height),
-                strokeWidth = gridStyle.strokeWidth.toPx()
-            )
-        }
-        val horizontalLines = gridStyle.horizontalLineCount
-        val sectionSize = size.height / (horizontalLines + 1)
-        repeat(horizontalLines) { i ->
-            val startY = sectionSize * (i + 1)
-            drawLine(
-                gridStyle.axisLineColor,
-                start = Offset(0f, startY),
-                end = Offset(size.width, startY),
-                strokeWidth = gridStyle.strokeWidth.toPx()
-            )
-        }
-
+fun getModifier(chartType: ChartType, chartStyle: ChartStyle): Modifier {
+    return when (chartType) {
+        ChartType.CircularBar -> Modifier.size((chartStyle as ChartStyle.PieChartStyle).chartSize)
+        ChartType.Empty -> Modifier.fillMaxSize()
+        ChartType.Line -> Modifier.fillMaxSize()
+        ChartType.Pie -> Modifier.size((chartStyle as ChartStyle.PieChartStyle).chartSize)
+        ChartType.RangeBar -> Modifier.fillMaxSize()
     }
-
 }
+
 
 
