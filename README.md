@@ -45,7 +45,7 @@ allprojects {
 build.gradle (app)
 ```groovy
 dependencies {
-    implementation 'com.github.md0092651:PlotWizard:0.0.2'
+    implementation 'com.github.md0092651:PlotWizard:0.0.8-alpha'
 }
 ```
 ## Usage
