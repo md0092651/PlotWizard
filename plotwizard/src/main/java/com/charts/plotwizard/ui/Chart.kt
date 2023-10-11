@@ -1,7 +1,11 @@
 package com.charts.plotwizard.ui
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -38,17 +42,17 @@ fun Chart(
         animateProgress.animateTo(1F, animationType.animation)
     })
 
-    val chartData = remember { ChartData(chartListData,chartStyle) }
+    val chartData = remember { ChartData(chartListData, chartStyle) }
 
     Box(
         modifier = modifier
             .fillMaxSize()
             .padding(20.dp),
-        contentAlignment = Alignment.Center
-    ){
+        contentAlignment = Alignment.Center,
+    ) {
         val coroutineScope = rememberCoroutineScope()
         Spacer(
-            modifier = getModifier(chartData.getChartType(),chartStyle)
+            modifier = getModifier(chartData.getChartType(), chartStyle)
                 .clickable {
                     coroutineScope.launch {
                         animationType.animationInitialProgress.snapTo(0f)
@@ -57,15 +61,16 @@ fun Chart(
                 }
                 .drawWithCache {
                     onDrawBehind {
-                        when(chartData.getChartType()){
-                            ChartType.RangeBar-> RangeChartPainter(chartData,animateProgress.value).drawPoint(this)
-                            ChartType.Pie-> PieChartPainter(chartData,animateProgress.value).drawPoint(this)
-                            ChartType.Line-> LineChartPainter(chartData,animateProgress.value).drawPoint(this)
-                            ChartType.CircularBar-> CircularBarChartPainter(chartData,animateProgress.value).drawPoint(this)
+                        when (chartData.getChartType()) {
+                            ChartType.RangeBar -> RangeChartPainter(chartData, animateProgress.value).drawPoint(this)
+                            ChartType.Pie -> PieChartPainter(chartData, animateProgress.value).drawPoint(this)
+                            ChartType.Line -> LineChartPainter(chartData, animateProgress.value).drawPoint(this)
+                            ChartType.CircularBar -> CircularBarChartPainter(chartData, animateProgress.value).drawPoint(this)
+                            ChartType.SingleHorizontalBar -> Unit // SingleHorizontalRangeBar(painter = painter).drawPoint(this)
                             else -> Unit
                         }
                     }
-                }
+                },
         )
     }
 }
@@ -77,8 +82,6 @@ fun getModifier(chartType: ChartType, chartStyle: ChartStyle): Modifier {
         ChartType.Line -> Modifier.fillMaxSize()
         ChartType.Pie -> Modifier.size((chartStyle as ChartStyle.PieChartStyle).chartSize)
         ChartType.RangeBar -> Modifier.fillMaxSize()
+        ChartType.SingleHorizontalBar -> Modifier.fillMaxSize()
     }
 }
-
-
-

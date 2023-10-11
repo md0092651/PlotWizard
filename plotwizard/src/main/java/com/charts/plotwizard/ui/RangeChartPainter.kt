@@ -13,7 +13,7 @@ import com.charts.plotwizard.chartdata.ChartData
 import com.charts.plotwizard.chartstyle.ChartStyle
 import kotlin.math.abs
 
-class RangeChartPainter(val data: ChartData,val animationValue: Float) : ChartPainter{
+class RangeChartPainter(val data: ChartData, private val animationValue: Float) : ChartPainter {
 
     private val chartStyle = data.getChartStyle() as ChartStyle.BarChartStyle
 
@@ -28,19 +28,21 @@ class RangeChartPainter(val data: ChartData,val animationValue: Float) : ChartPa
         val referenceBarThickness = chartStyle.barThickness
 
         for (i in 0 until data.numberOfBars) {
-
             val yUpper = padding + yIncrement * (data.getHighestValue() - data.getHighestValueAtIndex(i))
             val yLower = padding + yIncrement * (data.getHighestValue() - data.getLowestValueAtIndex(i))
 
-            val h = (yUpper - yLower) *  animationValue
+            val h = (yUpper - yLower) * animationValue
             val w = referenceBarThickness.toFloat()
             val brush = Brush.verticalGradient(chartStyle.chartBrush)
 
             drawRoundRect(
                 brush = brush,
                 topLeft = Offset(
-                    x = (padding + i * xIncrement) - referenceBarThickness / 2, y = padding + yIncrement * (data.getHighestValue() - data
-                        .getLowestValueAtIndex(i))
+                    x = (padding + i * xIncrement) - referenceBarThickness / 2,
+                    y = padding + yIncrement * (
+                        data.getHighestValue() - data
+                            .getLowestValueAtIndex(i)
+                        ),
                 ),
                 size = Size(height = h, width = w),
                 cornerRadius = CornerRadius(x = chartStyle.barCornerRadius, y = chartStyle.barCornerRadius),
@@ -57,7 +59,7 @@ class RangeChartPainter(val data: ChartData,val animationValue: Float) : ChartPa
                             textAlign = Paint.Align.CENTER
                             color = chartStyle.chartValueTextColor.toArgb()
                             isFakeBoldText = true
-                        }
+                        },
                     )
                 }
 
@@ -71,11 +73,10 @@ class RangeChartPainter(val data: ChartData,val animationValue: Float) : ChartPa
                             textAlign = Paint.Align.CENTER
                             color = chartStyle.chartValueTextColor.toArgb()
                             isFakeBoldText = true
-                        }
+                        },
                     )
                 }
             }
         }
-
     }
 }

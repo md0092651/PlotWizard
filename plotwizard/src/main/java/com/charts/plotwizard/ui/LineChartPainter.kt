@@ -15,7 +15,7 @@ import com.charts.plotwizard.chartdata.ChartEntry
 import com.charts.plotwizard.chartstyle.ChartStyle
 import com.charts.plotwizard.ui.theme.Pink80
 
-class LineChartPainter(val data: ChartData, val animationProgress: Float): ChartPainter{
+class LineChartPainter(val data: ChartData, private val animationProgress: Float) : ChartPainter {
     val style = data.getChartStyle() as ChartStyle.LineChartStyle
 
     override fun drawPoint(drawScope: DrawScope) = drawScope.run {
@@ -25,7 +25,7 @@ class LineChartPainter(val data: ChartData, val animationProgress: Float): Chart
         filledPath.lineTo(0f, size.height)
         filledPath.close()
 
-        if(!style.hideGridLine){
+        if (!style.hideGridLine) {
             GridLinePainter(style.gridStyle).drawPoint(this)
         }
 
@@ -36,14 +36,13 @@ class LineChartPainter(val data: ChartData, val animationProgress: Float): Chart
                 brush = Brush.verticalGradient(
                     listOf(
                         Pink80.copy(alpha = 0.4f),
-                        Color.Transparent
-                    )
+                        Color.Transparent,
+                    ),
                 ),
-                style = Fill
+                style = Fill,
             )
         }
     }
-
 }
 
 fun generateSmoothPath(data: ChartData, size: Size): Path {
@@ -60,17 +59,21 @@ fun generateSmoothPath(data: ChartData, size: Size): Path {
         if (i == 0) {
             path.moveTo(
                 0f,
-                size.height - ((entry as ChartEntry.LineChartEntry).yValue - data.getMinimumValue()) * heightPxPerAmount
+                size.height - ((entry as ChartEntry.LineChartEntry).yValue - data.getMinimumValue()) * heightPxPerAmount,
             )
         }
         val xIncrement = i * xWidth
         val yIncrement = size.height - ((entry as ChartEntry.LineChartEntry).yValue - data.getMinimumValue()) *
-                heightPxPerAmount
+            heightPxPerAmount
         val firstPoint = PointF((xIncrement + lastXValue) / 2f, lastYValue)
         val secondPoint = PointF((xIncrement + lastXValue) / 2f, yIncrement)
         path.cubicTo(
-            firstPoint.x, firstPoint.y, secondPoint.x, secondPoint.y,
-            xIncrement, yIncrement
+            firstPoint.x,
+            firstPoint.y,
+            secondPoint.x,
+            secondPoint.y,
+            xIncrement,
+            yIncrement,
         )
         lastXValue = xIncrement
         lastYValue = yIncrement
