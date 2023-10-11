@@ -5,10 +5,6 @@ sealed class ChartType {
     object RangeBar : ChartType()
     object Line : ChartType()
     object CircularBar : ChartType()
-    object Empty:ChartType()
+    object SingleHorizontalBar : ChartType()
+    object Empty : ChartType()
 }
-
-
-
-
-

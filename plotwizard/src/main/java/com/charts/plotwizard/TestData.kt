@@ -37,6 +37,7 @@ fun getMockLineList() = listOf(
     ChartEntry.LineChartEntry(11, 1000F,"E"),
 )
 
+
 fun getMockSpiralChartList() = listOf(
     ChartEntry.CircularBarChartEntry(value = 100F,"Activity A", C1,200),
     ChartEntry.CircularBarChartEntry(value = 80F,"Activity B", C2,200),

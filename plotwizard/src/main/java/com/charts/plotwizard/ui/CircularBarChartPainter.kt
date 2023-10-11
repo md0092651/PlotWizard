@@ -13,8 +13,8 @@ import com.charts.plotwizard.chartdata.ChartData
 import com.charts.plotwizard.chartdata.ChartEntry
 import com.charts.plotwizard.chartstyle.ChartStyle
 
-class CircularBarChartPainter(val data: ChartData,val animationProgress: Float) : ChartPainter{
-    val chartStyle = data.getChartStyle() as ChartStyle.PieChartStyle
+class CircularBarChartPainter(val data: ChartData, private val animationProgress: Float) : ChartPainter {
+    private val chartStyle = data.getChartStyle() as ChartStyle.PieChartStyle
 
     override fun drawPoint(drawScope: DrawScope) = drawScope.run {
         val canvasWidth = size.width
@@ -24,7 +24,6 @@ class CircularBarChartPainter(val data: ChartData,val animationProgress: Float) 
         val radiusIncrement = 70
         var currentRadius = radiusIncrement.toFloat()
         var currentAngle = chartStyle.startAngle
-
 
         val total = data.getHighestValue()
 
@@ -54,24 +53,22 @@ class CircularBarChartPainter(val data: ChartData,val animationProgress: Float) 
                 alpha = 1.0f,
             )
 
-
             drawContext.canvas.nativeCanvas.apply {
                 drawIntoCanvas {
                     drawText(
                         chartEntry.valueLabel,
-                        centerX - 10 ,
-                        (centerY - currentRadius + arcWidth/4).toFloat(), // - currentRadius / 2,
+                        centerX - 10,
+                        (centerY - currentRadius + arcWidth / 4).toFloat(), // - currentRadius / 2,
                         Paint().apply {
-                            textSize = 10.dp.toPx()//chartStyle.chartValueTextSize.toPx()
+                            textSize = 10.dp.toPx() // chartStyle.chartValueTextSize.toPx()
                             textAlign = Paint.Align.RIGHT
-                            color = android.graphics.Color.BLACK//chartStyle.chartValueTextColor.toArgb()
+                            color = android.graphics.Color.BLACK // chartStyle.chartValueTextColor.toArgb()
                             isFakeBoldText = true
-                        }
+                        },
                     )
                 }
             }
             currentRadius += radiusIncrement
         }
     }
-
 }
