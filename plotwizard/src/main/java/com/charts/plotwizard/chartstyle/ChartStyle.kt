@@ -1,5 +1,6 @@
 package com.charts.plotwizard.chartstyle
 
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.Dp
@@ -56,6 +57,15 @@ sealed class ChartStyle {
         val chartBrush: List<Color> = listOf(Purple80, Purple40),
         val generateRandomColor: Boolean = false,
         val hideXYLine: Boolean = false,
+    ) : ChartStyle()
+
+    data class RiseSetStyle(
+        val nightBrush: Brush = Brush.verticalGradient(listOf(Color.Black.copy(alpha = 0.2f), Color.Black.copy(alpha = 0.2f))),
+        val dayBrush: Brush = Brush.verticalGradient(listOf(Color.Yellow.copy(alpha = 0.8f), Color.Yellow.copy(alpha = 0.8f))),
+        val iconSize: Dp = 20.dp,
+        val barHeight: Dp = 20.dp,
+        val dayLightIconTint: Color = Color.Black,
+        val nightIconTint: Color = Color.White,
     ) : ChartStyle()
 }
 
