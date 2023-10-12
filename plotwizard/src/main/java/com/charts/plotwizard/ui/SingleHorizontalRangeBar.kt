@@ -33,7 +33,7 @@ class SingleHorizontalRangeBar(
             brush = chartStyle.nightBrush,
             topLeft = Offset(
                 x = 0F,
-                y = 0F,
+                y = -chartStyle.barHeight.toPx() / 4,
             ),
             size = Size(height = chartStyle.barHeight.toPx(), width = canvasWidth),
             cornerRadius = CornerRadius(x = 30f, y = 30f),
@@ -43,7 +43,7 @@ class SingleHorizontalRangeBar(
             brush = chartStyle.dayBrush,
             topLeft = Offset(
                 x = startOffSet,
-                y = 0f,
+                y = -chartStyle.barHeight.toPx() / 4,
             ),
             size = Size(height = chartStyle.barHeight.toPx(), width = dayWidth),
             cornerRadius = CornerRadius(x = 30f, y = 30f),
@@ -51,7 +51,7 @@ class SingleHorizontalRangeBar(
 
         drawContext.canvas.nativeCanvas.apply {
             drawIntoCanvas {
-                translate(sunOffSet, 0f) {
+                translate(sunOffSet, -chartStyle.barHeight.toPx() / 4) {
                     with(entryValue.painter) {
                         draw(
                             size = Size(chartStyle.iconSize.toPx(), chartStyle.iconSize.toPx()),

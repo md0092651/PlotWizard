@@ -3,6 +3,7 @@ package com.charts.sample.plotwizard
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +13,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -93,17 +97,22 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         val painter = rememberVectorPainter(ImageVector.vectorResource(id = R.drawable.sun))
-
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1F)
-                                .height(100.dp),
+                        Row(
+                            horizontalArrangement = Arrangement.Start,
+                            modifier = Modifier.fillMaxWidth().height(50.dp),
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
+                            Text(text = "2AM")
                             Chart(
+                                modifier = Modifier.weight(1f).height(50.dp),
                                 chartListData = getMockSunRiseAndSunSetData(painter),
                                 animationType = AnimationType.Bouncy(20F),
+                                chartStyle = ChartStyle.RiseSetStyle(
+                                    dayBrush = Brush.linearGradient(listOf(Color.Yellow, Color.Yellow)),
+                                    nightBrush = Brush.horizontalGradient(listOf(Color.Blue, Color.Yellow)),
+                                ),
                             )
+                            Text(text = "2AM")
                         }
                     }
                 }
