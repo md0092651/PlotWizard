@@ -66,7 +66,53 @@ fun Chart(
                             ChartType.Pie -> PieChartPainter(chartData, animateProgress.value).drawPoint(this)
                             ChartType.Line -> LineChartPainter(chartData, animateProgress.value).drawPoint(this)
                             ChartType.CircularBar -> CircularBarChartPainter(chartData, animateProgress.value).drawPoint(this)
-                            ChartType.SingleHorizontalBar -> Unit // SingleHorizontalRangeBar(painter = painter).drawPoint(this)
+                            ChartType.SingleHorizontalBar -> SingleHorizontalRangeBar(chartData, animateProgress.value).drawPoint(this)
+                            else -> Unit
+                        }
+                    }
+                },
+        )
+    }
+}
+
+@Composable
+fun Chart(
+    modifier: Modifier = Modifier,
+    chartListData: ChartEntry,
+    chartStyle: ChartStyle = DefaultStyle(),
+    animationType: AnimationType = AnimationType.None,
+) {
+    val animateProgress = remember { animationType.animationInitialProgress }
+
+    LaunchedEffect(key1 = chartListData, block = {
+        animateProgress.animateTo(1F, animationType.animation)
+    })
+
+    val chartData = remember { ChartData(chartListData, chartStyle) }
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(20.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        val coroutineScope = rememberCoroutineScope()
+        Spacer(
+            modifier = getModifier(chartData.getChartType(), chartStyle)
+                .clickable {
+                    coroutineScope.launch {
+                        animationType.animationInitialProgress.snapTo(0f)
+                        animationType.animationInitialProgress.animateTo(1f, animationType.animation)
+                    }
+                }
+                .drawWithCache {
+                    onDrawBehind {
+                        when (chartData.getChartType()) {
+                            ChartType.RangeBar -> RangeChartPainter(chartData, animateProgress.value).drawPoint(this)
+                            ChartType.Pie -> PieChartPainter(chartData, animateProgress.value).drawPoint(this)
+                            ChartType.Line -> LineChartPainter(chartData, animateProgress.value).drawPoint(this)
+                            ChartType.CircularBar -> CircularBarChartPainter(chartData, animateProgress.value).drawPoint(this)
+                            ChartType.SingleHorizontalBar -> SingleHorizontalRangeBar(chartData, animateProgress.value).drawPoint(this)
                             else -> Unit
                         }
                     }

@@ -1,6 +1,7 @@
 package com.charts.plotwizard.chartdata
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.VectorPainter
 import com.charts.plotwizard.ui.theme.Purple80
 
 sealed class ChartEntry {
@@ -27,5 +28,12 @@ sealed class ChartEntry {
         val valueLabel: String,
         val valueColor: Color,
         val maxValue: Int,
+    ) : ChartEntry()
+
+    data class RiseSetBarChartEntry(
+        val riseHours: Float = 8F,
+        val setHours: Float = 16F,
+        val currentHours: Float = 2f,
+        val painter: VectorPainter,
     ) : ChartEntry()
 }
